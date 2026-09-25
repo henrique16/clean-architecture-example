@@ -7,4 +7,4 @@ This allows us to test the entire use case logic using in-memory data and a fake
 
 Notice that the use case has no dependency on any specific technology. It only depends on the contract interfaces, which protects the layer. If we need to replace a technology in the future, the interface contracts remain unchanged. We only need to update the infrastructure layer and configure the new technology in the composition layer.
 
-#### How would you implement the repository and use case layers?
+#### How would you implement the repository and service layers?
