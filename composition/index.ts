@@ -2,8 +2,8 @@ import { MessageRepository } from "../repository/message"
 import { PublishingRepository } from "../repository/publishing"
 import { UserRepository } from "../repository/user"
 import { PublishingService } from "../service/publishing"
-import { CreatePublication } from "../use-case/createPublication"
-import { CreateUser } from "../use-case/createUser"
+import { CreatePublicationAbstract } from "../use-case/createPublication"
+import { CreateUserAbstract } from "../use-case/createUser"
 import MessageRepositoryImpl from "../infrastructure/repository/messageImpl"
 import PublishingRepositoryImpl from "../infrastructure/repository/publishingImpl"
 import UserRepositoryImpl from "../infrastructure/repository/userImpl"
@@ -18,13 +18,15 @@ const userRepository: UserRepository = new UserRepositoryImpl()
 const publishingService: PublishingService = new PublishingServiceImpl()
 
 // Use cases
-const createPublication: typeof CreatePublication = CreatePublicationImpl(
+const CreatePublication: CreatePublicationAbstract = new CreatePublicationImpl(
   messageRepository, 
   publishingRepository, 
   userRepository, 
   publishingService
 )
+const createPublication = CreatePublication.createPublication
 
-const createUser: typeof CreateUser = CreateUserImpl(userRepository)
+const CreateUser: CreateUserAbstract = new CreateUserImpl(userRepository)
+const createUser = CreateUser.createUser
 
 export { createPublication, createUser }

@@ -1,26 +1,18 @@
 import { Message } from "../../domain/message"
 import { Publishing } from "../../domain/publishing"
-import { MessageRepository } from "../../repository/message"
-import { PublishingRepository } from "../../repository/publishing"
-import { UserRepository } from "../../repository/user"
-import { PublishingContent, PublishingService } from "../../service/publishing"
-import { CreatePublication } from "../../use-case/createPublication"
+import { PublishingContent } from "../../service/publishing"
+import { CreatePublicationAbstract } from "../../use-case/createPublication"
 
-export default function (
-  messageRepository: MessageRepository,
-  publishingRepository: PublishingRepository,
-  userRepository: UserRepository,
-  publishingService: PublishingService
-): typeof CreatePublication {
-
-  return async function (content) {
+export default class extends CreatePublicationAbstract {
+  async createPublication(...args: Parameters<CreatePublicationAbstract["createPublication"]>): ReturnType<CreatePublicationAbstract["createPublication"]> {
+    const [content] = args
     const message: Omit<Message, "id"> = {
       userId: content.userId,
       text: content.message
     }
     const [savedUser, savedMessage, savedImage] = await Promise.all([
-      userRepository.getById(content.userId),
-      messageRepository.save(message),
+      this.userRepository.getById(content.userId),
+      this.messageRepository.save(message),
       // SAVE IMAGE
       Promise.resolve({ id: 1, url: content.image })
     ])
@@ -33,7 +25,7 @@ export default function (
       messageId: savedMessage.id,
       imageId: savedImage.id
     }
-    await publishingRepository.save(publishing)
+    await this.publishingRepository.save(publishing)
     console.log("Saved publishing:", publishing)
 
     const publishingContent: PublishingContent = {
@@ -41,7 +33,7 @@ export default function (
       message: savedMessage.text,
       image: savedImage.url
     }
-    await publishingService.publish(publishingContent).catch(error => {
+    await this.publishingService.publish(publishingContent).catch(error => {
       console.error(new Error(`Failed to create publication ${publishingContent}`))
       console.error(error)
     })

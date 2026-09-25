@@ -1,11 +1,7 @@
-import { UserRepository } from "../../repository/user"
-import { CreateUser } from "../../use-case/createUser"
+import { CreateUserAbstract } from "../../use-case/createUser"
 
-export default function (userRepository: UserRepository): typeof CreateUser {
-  return async function (user) {
-    return userRepository.save(user).then(user => {
-      console.log("Saved user:", user)
-      return user
-    })
+export default class extends CreateUserAbstract {
+  createUser(...args: Parameters<CreateUserAbstract["createUser"]>): ReturnType<CreateUserAbstract["createUser"]> {
+    return this.userRepository.save(...args)
   }
 }
