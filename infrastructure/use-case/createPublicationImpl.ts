@@ -1,3 +1,4 @@
+import { Image } from "../../domain/image"
 import { Message } from "../../domain/message"
 import { Publishing } from "../../domain/publishing"
 import { PublishingContent } from "../../service/publishing"
@@ -10,11 +11,13 @@ export default class extends CreatePublicationAbstract {
       userId: content.userId,
       text: content.message
     }
+    const image: Omit<Image, "id"> = {
+      url: content.image
+    }
     const [savedUser, savedMessage, savedImage] = await Promise.all([
       this.userRepository.getById(content.userId),
       this.messageRepository.save(message),
-      // SAVE IMAGE
-      Promise.resolve({ id: 1, url: content.image })
+      this.imageRepository.save(image)
     ])
     console.log("Saved user:", savedUser)
     console.log("Saved message:", savedMessage)
