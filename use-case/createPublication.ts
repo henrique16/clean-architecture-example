@@ -1,38 +1,20 @@
-import { Message } from "../domain/message"
-import { Publishing } from "../domain/publishing"
-import { User } from "../domain/user"
 import { MessageRepository } from "../repository/message"
 import { PublishingRepository } from "../repository/publishing"
+import { PublishingService } from "../service/publishing"
 import { UserRepository } from "../repository/user"
-import { PublishingContent, PublishingService } from "../service/publishing"
 
-export declare function CreatePublication(content: PublishingContent): Promise<void>
+export type PublishingContentDTO = {
+  userId: number,
+  message: string,
+  image?: string
+}
 
-export default class {
+export abstract class CreatePublicationAbstract {
   constructor(
-    private readonly messageRepository: MessageRepository,
-    private readonly publishingRepository: PublishingRepository,
-    private readonly userRepository: UserRepository,
-    private readonly publishingService: PublishingService
+    protected messageRepository: MessageRepository,
+    protected publishingRepository: PublishingRepository,
+    protected userRepository: UserRepository,
+    protected publishingService: PublishingService
   ) { }
-
-  exec: typeof CreatePublication = async (content) => {
-    const message: Message = {} as any
-    const user: User = {} as any
-    const publishing: Publishing = {} as any
-
-    await Promise.all([
-      this.messageRepository.save(message),
-      this.userRepository.save(user),
-      this.publishingRepository.save(publishing)
-    ]).catch(error => {
-      console.error(new Error(`Failed to save publication ${content}`))
-      console.error(error)
-    })
-
-    await this.publishingService.publish(content).catch(error => {
-      console.error(new Error(`Failed to create publication ${content}`))
-      console.error(error)
-    })
-  }
+  abstract createPublication(content: PublishingContentDTO): Promise<void>
 }
