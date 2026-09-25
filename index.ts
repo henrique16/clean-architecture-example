@@ -1,7 +1,13 @@
-import { createPublication } from "./composition"
+import { createPublication, createUser } from "./composition"
 
-createPublication({
-   message: "New publication",
-   userName: "John Doe",
-   image: "https://example.com/image.jpg",
+createUser({
+  name: "John Doe",
+  type: "standard",
+}).then(user => {
+  createPublication({
+     message: "New publication",
+     userId: user.id,
+     image: "https://example.com/image.jpg",
+  })
 })
+
