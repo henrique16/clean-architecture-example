@@ -1,7 +1,6 @@
-import composition from "./composition";
-const CreatePublication = composition.createPublication.exec
+import { createPublication } from "./composition"
 
-CreatePublication({
+createPublication({
    message: "New publication",
    userName: "John Doe",
    image: "https://example.com/image.jpg",

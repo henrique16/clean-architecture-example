@@ -6,15 +6,9 @@ import { PublishingRepository } from "../repository/publishing"
 import { UserRepository } from "../repository/user"
 import { PublishingContent, PublishingService } from "../service/publishing"
 
-export abstract class CreatePublication {
-  abstract readonly messageRepository: MessageRepository
-  abstract readonly publishingRepository: PublishingRepository
-  abstract readonly userRepository: UserRepository
-  abstract readonly publishingService: PublishingService
-  abstract exec(content: PublishingContent): Promise<void>
-}
+export declare function CreatePublication(content: PublishingContent): Promise<void>
 
-/*export default class {
+export default class {
   constructor(
     private readonly messageRepository: MessageRepository,
     private readonly publishingRepository: PublishingRepository,
@@ -22,7 +16,7 @@ export abstract class CreatePublication {
     private readonly publishingService: PublishingService
   ) { }
 
-  async exec(content: PublishingContent): Promise<void> {
+  exec: typeof CreatePublication = async (content) => {
     const message: Message = {} as any
     const user: User = {} as any
     const publishing: Publishing = {} as any
@@ -41,4 +35,4 @@ export abstract class CreatePublication {
       console.error(error)
     })
   }
-}*/
+}
