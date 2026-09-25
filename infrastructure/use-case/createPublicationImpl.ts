@@ -12,7 +12,7 @@ export default class extends CreatePublicationAbstract {
       text: content.message
     }
     const image: Omit<Image, "id"> = {
-      url: content.image
+      url: content.image || ""
     }
     const [savedUser, savedMessage, savedImage] = await Promise.all([
       this.userRepository.getById(content.userId),
