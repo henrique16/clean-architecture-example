@@ -24,9 +24,9 @@ const CreatePublication: CreatePublicationAbstract = new CreatePublicationImpl(
   userRepository, 
   publishingService
 )
-const createPublication = CreatePublication.createPublication
+const createPublication = CreatePublication.createPublication.bind(CreatePublication)
 
 const CreateUser: CreateUserAbstract = new CreateUserImpl(userRepository)
-const createUser = CreateUser.createUser
+const createUser = CreateUser.createUser.bind(CreateUser)
 
 export { createPublication, createUser }
