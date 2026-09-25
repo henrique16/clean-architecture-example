@@ -4,12 +4,14 @@ import { UserRepository } from "../repository/user"
 import { PublishingService } from "../service/publishing"
 import { CreatePublicationAbstract } from "../use-case/createPublication"
 import { CreateUserAbstract } from "../use-case/createUser"
+import { ImageRepository } from "../repository/image"
 
 // Injected dependencies
 const messageRepository: MessageRepository = {} as any
 const publishingRepository: PublishingRepository = {} as any
 const userRepository: UserRepository = {} as any
 const publishingService: PublishingService = {} as any
+const imageRepository: ImageRepository = {} as any
 
 // Use cases
 const CreatePublication: CreatePublicationAbstract = {} as any
