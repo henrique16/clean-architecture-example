@@ -1,5 +1,0 @@
-import { PublishingService, PublishingContent } from "../../service/publishing";
-export default class implements PublishingService {
-    publish(content: PublishingContent): Promise<void>;
-}
-//# sourceMappingURL=publishingImpl.d.ts.map
